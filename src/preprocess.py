@@ -3,9 +3,9 @@ from sklearn.model_selection import train_test_split
 
 
 def read_file(filename):
-    ''' 
+    '''
         The dataset has 3 fields (ID, Text, Labels)
-        
+
         Two of the fields(Text and Labels) are put into seperate files under the ../train folder.
         - ../train/comments.txt
         - ../train/labels.txt
@@ -16,11 +16,11 @@ def read_file(filename):
     global data
     data = list()
 
-    labels = {"Other Hateful Sarcasm":0, "Racist Sarcasm":1, "Sexist Sarcasm":2, 
+    labels = {"Other Hateful Sarcasm":0, "Racist Sarcasm":1, "Sexist Sarcasm":2,
             "None of the above (Neutral + Only sarcastic + Only hateful)":3}
-    
-    comments_writer = open("../train/comments.txt", "a")
-    labels_writer = open("../train/labels.txt", "a")
+
+    comments_writer = open("../train/comments.txt", "w")
+    labels_writer = open("../train/labels.txt", "w")
 
     with open(filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter='\t')
@@ -29,8 +29,8 @@ def read_file(filename):
             comment = text.split("Comment:")[-1]
             label = labels[row[2]]
             data.append((comment, str(label)))
-            # comments_writer.write(comment + "\n")
-            # labels_writer.write(str(label) + "\n")
+            comments_writer.write(comment + "\n")
+            labels_writer.write(str(label) + "\n")
 
 def split_data():
     global X_train, X_test, y_train, y_test, X_validation, y_validation
@@ -67,4 +67,4 @@ def split_data():
 
 if __name__ == "__main__":
     read_file("../dataset.csv")
-    split_data()
+    # split_data()

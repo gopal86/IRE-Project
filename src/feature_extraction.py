@@ -7,7 +7,7 @@ def language_model():
     '''
     - Make a list(list()) that will store the count of n-grams occuring in each
       comment. This list() will later be used to compute the tf-idf feature matrix.
-    - Also, we will make a n_grams dict() that will contain all the char n_grams 
+    - Also, we will make a n_grams dict() that will contain all the char n_grams
       appearing in all the comments.
     '''
 
@@ -33,9 +33,9 @@ def language_model():
 def extract_features():
     '''
     - Character n-grams(trigrams) are used for feature extraction.
-    - Build a vector of feature vectors for each of the tweets. 
-    - The feature vector for each tweet will be of length (no. of trigrams) 
-      with each feature being 0 or 1 marking the presence/absence of the 
+    - Build a vector of feature vectors for each of the tweets.
+    - The feature vector for each tweet will be of length (no. of trigrams)
+      with each feature being 0 or 1 marking the presence/absence of the
       trigram in that particular tweet.
     - So the features matrix will be of dim [(no. of comments) x (no. of trigrams)]
     '''
@@ -43,7 +43,7 @@ def extract_features():
     global f_matrix
     f_matrix = list()
     D = len(n_grams_list)
-    
+
     for comment_n_grams in tqdm(n_grams_list):
         f_vector = list()
         for n_gram in n_grams.keys():
@@ -58,7 +58,13 @@ def extract_features():
         f_matrix.append(f_vector)
 
 def write_f_matrix():
-    f_matrix_writer = open("../train/feature_matrix.txt", "a")
+    f_matrix_writer = open("../train/feature_matrix.txt", "w")
+
+    for i in range(len(f_matrix[0])):
+        if i == len(f_matrix[0])-1:
+            f_matrix_writer.write("col" + str(i) +'\n')
+        else:
+            f_matrix_writer.write("col" + str(i) + ',')
     for f_vector in f_matrix:
         f_vector = [str(f) for f in f_vector]
         f_str = ",".join(f_vector)
